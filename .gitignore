@@ -1,2 +1,4 @@
 AdventOfCode2021.iml
 .idea/
+*.class
+out/
