@@ -6,7 +6,7 @@ import java.util.List;
 
 class Day5Part2 {
 
-  static int[] getDirection(int x1, int y1, int x2, int y2) {
+  int[] getDirection(int x1, int y1, int x2, int y2) {
     if (x1 == x2 && y2 > y1) {
       int[] arr = {0, 1};
       return arr;
@@ -37,6 +37,7 @@ class Day5Part2 {
   }
   public static void main(String[] args) {
     try {
+      Day5Part2 solution = new Day5Part2();
       Path path = Paths.get("input.txt");
       int numDangerZones = 0;
       List<String> fileContents = Files.readAllLines(path);
@@ -51,7 +52,7 @@ class Day5Part2 {
         int y1 = Integer.parseInt(coordinates1[1].trim());
         int x2 = Integer.parseInt(coordinates2[0].trim());
         int y2 = Integer.parseInt(coordinates2[1].trim());
-        int[] dir = getDirection(x1, y1, x2, y2);
+        int[] dir = solution.getDirection(x1, y1, x2, y2);
         while (x1 != x2 || y1 != y2) {
           HashMap<Integer, Integer> map = diagram.getOrDefault(x1, new HashMap<>());
           map.put(y1, map.getOrDefault(y1, 0) + 1);

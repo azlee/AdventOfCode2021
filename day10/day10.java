@@ -4,17 +4,16 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Stack;
 
-class Day10 {
-
-  static boolean isOpen(char c) {
+class Solution {
+  boolean isOpen(char c) {
     return (c == '(' || c == '[' || c == '{' || c == '<');
   }
 
-  static boolean isClosed(char c) {
+  boolean isClosed(char c) {
     return (c == ')' || c == ']' || c == '}' || c == '>');
   }
 
-  static char getClosing(char c) {
+  char getClosing(char c) {
     if (c == '(') {
       return ')';
     }
@@ -30,7 +29,7 @@ class Day10 {
     return '\0';
   }
 
-  static int getScore(char illegal) {
+  int getScore(char illegal) {
     if (illegal == ')') {
       return 3;
     } else if (illegal == ']') {
@@ -42,12 +41,13 @@ class Day10 {
     }
     return 0;
   }
-  public static void main(String[] args) {
+
+  int solution() {
+    int syntaxErrorScore = 0;
     try {
       Path path = Paths.get("input.txt");
       List<String> fileContents = Files.readAllLines(path);
       Stack<Character> openBrackets = new Stack<Character>();
-      int syntaxErrorScore = 0;
       for (String line : fileContents) {
         char[] charArr = line.toCharArray();
         for (char c : charArr) {
@@ -62,9 +62,16 @@ class Day10 {
           }
         }
       }
-      System.out.println(syntaxErrorScore);
     } catch (Exception e) {
       System.out.println(e);
     }
+    return syntaxErrorScore;
+  }
+}
+
+class Day10 {
+  public static void main(String[] args) {
+    Solution solution = new Solution();
+    System.out.println(solution.solution());
   }
 }

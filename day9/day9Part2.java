@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class Day9Part2 {
+class Solution {
   static int basin1 = Integer.MIN_VALUE;
   static int basin2 = Integer.MIN_VALUE;
   static int basin3 = Integer.MIN_VALUE;
@@ -63,7 +63,8 @@ class Day9Part2 {
     }
     return 0;
   }
-  public static void main(String[] args) {
+  int getBasin() {
+    int basin = 0;
     try {
       Path path = Paths.get("input.txt");
       List<String> fileContents = Files.readAllLines(path);
@@ -80,9 +81,17 @@ class Day9Part2 {
           }
         }
       }
-      System.out.println(basin1 * basin2 * basin3);
+      basin = basin1 * basin2 * basin3;
     } catch (Exception e) {
       System.out.println(e);
     }
+    return basin;
+  }
+}
+
+class Day9Part2 {
+  public static void main(String[] args) {
+    Solution solution = new Solution();
+    System.out.println(solution.getBasin());
   }
 }

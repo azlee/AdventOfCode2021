@@ -2,12 +2,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-class Day3Part2 {
-
-  static int convertBinaryToDecimal(String binary) {
+class Solution {
+  int convertBinaryToDecimal(String binary) {
     int base = 1;
     int ret = 0;
     for (int i = binary.length() - 1; i >= 0; i--) {
@@ -17,7 +15,7 @@ class Day3Part2 {
     return ret;
   }
 
-  static List<String> getMostSignificant(int[] numberOfOnes, List<String> nums, int i) {
+  List<String> getMostSignificant(int[] numberOfOnes, List<String> nums, int i) {
     List<String> mostSignificant = new ArrayList<>();
     int mostSignificantDigit = numberOfOnes[i] > nums.size()/2 ? 1 : 0;
     if (numberOfOnes[i] * 2 == nums.size()) {
@@ -31,7 +29,7 @@ class Day3Part2 {
     return mostSignificant;
   }
 
-  static List<String> getLeastSignificant(int[] numberOfOnes, List<String> nums, int i) {
+  List<String> getLeastSignificant(int[] numberOfOnes, List<String> nums, int i) {
     List<String> leastSignificant = new ArrayList<>();
     for (String str : nums) {
       int leastSignificantDigit = numberOfOnes[i] <= nums.size()/2 ? 1 : 0;
@@ -45,7 +43,7 @@ class Day3Part2 {
     return leastSignificant;
   }
 
-  static int[] getNumberOfOnes(List<String> binaryNums) {
+  int[] getNumberOfOnes(List<String> binaryNums) {
     int[] numberOfOnes = new int[binaryNums.get(0).length()];
     for (int i = 0; i < binaryNums.size(); i++) {
       String line = binaryNums.get(i);
@@ -56,7 +54,8 @@ class Day3Part2 {
     return numberOfOnes;
   }
 
-  public static void main(String[] args) {
+  getLifeSupport() {
+    int lifeSupport = 0;
     try {
         Path path = Paths.get("input.txt");
         List<String> fileContents = Files.readAllLines(path);
@@ -74,13 +73,17 @@ class Day3Part2 {
           leastSignificant = new ArrayList<>(getLeastSignificant(numberOfOnes, leastSignificant, i));
           i++;
         }
-        System.out.println(mostSignificant);
-        System.out.println(leastSignificant);
-        System.out.println(convertBinaryToDecimal(mostSignificant.get(0)));
-        System.out.println(convertBinaryToDecimal(leastSignificant.get(0)));
-        System.out.println(convertBinaryToDecimal(mostSignificant.get(0)) * convertBinaryToDecimal(leastSignificant.get(0)));
+        lifeSupport = convertBinaryToDecimal(mostSignificant.get(0)) * convertBinaryToDecimal(leastSignificant.get(0));
     } catch (Exception ex) {
         System.out.println(ex);
     }
+    return lifeSupport;
+  }
 }
+
+class Day3Part2 {
+  public static void main(String[] args) {
+    Solution solution = new Solution();
+    System.out.println(solution.getLifeSupport());
+  }
 }

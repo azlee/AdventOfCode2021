@@ -6,17 +6,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-class Day10Part2 {
-
-  static boolean isOpen(char c) {
+class Solution {
+  boolean isOpen(char c) {
     return (c == '(' || c == '[' || c == '{' || c == '<');
   }
 
-  static boolean isClosed(char c) {
+  boolean isClosed(char c) {
     return (c == ')' || c == ']' || c == '}' || c == '>');
   }
 
-  static char getClosing(char c) {
+  char getClosing(char c) {
     if (c == '(') {
       return ')';
     }
@@ -32,7 +31,7 @@ class Day10Part2 {
     return '\0';
   }
 
-  static int getScore(char closing) {
+  int getScore(char closing) {
     if (closing == ')') {
       return 1;
     } else if (closing == ']') {
@@ -44,13 +43,14 @@ class Day10Part2 {
     }
     return 0;
   }
-  public static void main(String[] args) {
+
+  long solution() {
+    List<Long> scores = new ArrayList<>();
     try {
+      Day10Part2 solution = new Day10Part2();
       Path path = Paths.get("input.txt");
       List<String> fileContents = Files.readAllLines(path);
       Stack<Character> openBrackets = new Stack<Character>();
-      List<Long> scores = new ArrayList<>();
-      int broken = 0;
       for (String line : fileContents) {
         char[] charArr = line.toCharArray();
         openBrackets = new Stack<>();
@@ -63,7 +63,6 @@ class Day10Part2 {
             if (getClosing(open) != c) {
               // invalid line
               broke = true;
-              broken++;
               break;
             }
           }
@@ -74,17 +73,22 @@ class Day10Part2 {
             char c = openBrackets.pop();
             char close = getClosing(c);
             score *= 5;
-            System.out.println("score " + score);
             score += getScore(close);
           }
           scores.add(score);
         }
       }
       Collections.sort(scores);
-      int middle = scores.size() / 2;
-      System.out.println(scores.get(middle));
     } catch (Exception e) {
       System.out.println(e);
     }
+    return scores.get(scores.size() / 2);
+  }
+}
+
+class Day10Part2 {
+  public static void main(String[] args) {
+    Solution solution = new Solution();
+    System.out.println(solution.solution());
   }
 }
