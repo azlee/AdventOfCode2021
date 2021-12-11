@@ -57,12 +57,26 @@ class Solution {
     return arr;
   }
 
-  int getTotalFlashes() {
-    int[][] arr = parseFile();
-    for (int i = 0; i < 100; i++) {
-      arr = getFlashesInStep(arr);
+  boolean isAllFlashed(int[][] arr) {
+    for (int i = 0; i < arr.length; i++) {
+      for (int j = 0; j < arr[i].length; j++) {
+        if (arr[i][j] != 0) return false;
+      }
     }
-    return flashes;
+    return true;
+  }
+
+  int getNumStepsWhenAllFlashed() {
+    int[][] arr = parseFile();
+    int steps = 1;
+    while (true) {
+      arr = getFlashesInStep(arr);
+      if (isAllFlashed(arr)) {
+        break;
+      }
+      steps++;
+    }
+    return steps;
   }
 
   int[][] parseFile() {
@@ -84,9 +98,9 @@ class Solution {
   }
 }
 
-class Day11 {
+class Day11Part2 {
   public static void main(String[] args) {
     Solution solution = new Solution();
-    System.out.println(solution.getTotalFlashes());
+    System.out.println(solution.getNumStepsWhenAllFlashed());
   }
 }
