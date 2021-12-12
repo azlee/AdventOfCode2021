@@ -19,7 +19,8 @@ class Solution {
     return c <= 'Z' && c >= 'A';
   }
 
-  void DFSUtil(String curr, Set<String> visited) {
+  void DFSUtil(String curr, Set<String> visited, boolean visitedSmallCave) {
+    // System.out.println("curr " + curr);
     if (curr.equals("end")) {
       numPaths++;
       return;
@@ -27,13 +28,15 @@ class Solution {
     if (!isBigCave(curr)) {
       visited.add(curr);
     }
+    // System.out.println("visited is " + visited);
+    // System.out.println("neighbors are " + adj.get(curr));
     Iterator<String> i = adj.get(curr).listIterator();
     while (i.hasNext()) {
       String n = i.next();
       if (!visited.contains(n)) {
         Set<String> newVisited = new HashSet<>();
         newVisited.addAll(visited);
-        DFSUtil(n, newVisited);
+        DFSUtil(n, newVisited, visitedSmallCave);
       }
     }
   }
@@ -41,7 +44,7 @@ class Solution {
   int findNumPaths() {
     parseFile();
     Set<String> visited = new HashSet<>();
-    DFSUtil("start", visited);
+    DFSUtil("start", visited, false);
     return numPaths;
   }
 
@@ -65,7 +68,7 @@ class Solution {
   }
 }
 
-class Day12 {
+class Day12Part2 {
   public static void main(String[] args) {
     Solution solution = new Solution();
     solution.findNumPaths();
