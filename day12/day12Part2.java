@@ -2,12 +2,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 class Solution {
 
@@ -19,31 +18,34 @@ class Solution {
     return c <= 'Z' && c >= 'A';
   }
 
-  void DFSUtil(String curr, Set<String> visited, boolean visitedSmallCave) {
-    // System.out.println("curr " + curr);
+  void DFSUtil(String curr, Map<String, Integer> smallCaveVisits, boolean caveVisitedTwice) {
     if (curr.equals("end")) {
       numPaths++;
       return;
     }
     if (!isBigCave(curr)) {
-      visited.add(curr);
+      int numVisitsCave = smallCaveVisits.getOrDefault(curr, 0) + 1;
+      if (numVisitsCave == 2) {
+        caveVisitedTwice = true;
+      } else if (numVisitsCave > 2) {
+        return;
+      }
+      smallCaveVisits.put(curr, numVisitsCave);
     }
-    // System.out.println("visited is " + visited);
-    // System.out.println("neighbors are " + adj.get(curr));
     Iterator<String> i = adj.get(curr).listIterator();
     while (i.hasNext()) {
       String n = i.next();
-      if (!visited.contains(n)) {
-        Set<String> newVisited = new HashSet<>();
-        newVisited.addAll(visited);
-        DFSUtil(n, newVisited, visitedSmallCave);
+      Map<String, Integer> newVisited = smallCaveVisits.entrySet().stream()
+                .collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue()));
+      if (smallCaveVisits.getOrDefault(n, 0) < 1 || !caveVisitedTwice) {
+        DFSUtil(n, newVisited, caveVisitedTwice);
       }
     }
   }
 
   int findNumPaths() {
     parseFile();
-    Set<String> visited = new HashSet<>();
+    Map<String, Integer> visited = new HashMap<>();
     DFSUtil("start", visited, false);
     return numPaths;
   }
@@ -56,9 +58,13 @@ class Solution {
       for (String line : fileContents) {
         String[] fromTo = line.split("-");
         LinkedList<String> neighbors = adj.getOrDefault(fromTo[0], new LinkedList<>());
-        neighbors.add(fromTo[1]);
+        if (!fromTo[1].equals("start")) {
+          neighbors.add(fromTo[1]);
+        }
         LinkedList<String> neighbors2 = adj.getOrDefault(fromTo[1], new LinkedList<>());
-        neighbors2.add(fromTo[0]);
+        if (!fromTo[0].equals("start")) {
+          neighbors2.add(fromTo[0]);
+        }
         adj.put(fromTo[0], neighbors);
         adj.put(fromTo[1], neighbors2);
       }
