@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 
 class Solution {
-
   private Map<String, LinkedList<String>> adj;
   Integer numPaths = 0;
 
@@ -68,7 +67,6 @@ class Solution {
 class Day12 {
   public static void main(String[] args) {
     Solution solution = new Solution();
-    solution.findNumPaths();
-    System.out.println(solution.numPaths);
+    System.out.println(solution.findNumPaths());
   }
 }

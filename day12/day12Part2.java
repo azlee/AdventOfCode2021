@@ -77,7 +77,6 @@ class Solution {
 class Day12Part2 {
   public static void main(String[] args) {
     Solution solution = new Solution();
-    solution.findNumPaths();
-    System.out.println(solution.numPaths);
+    System.out.println(solution.findNumPaths());
   }
 }
