@@ -9,7 +9,30 @@ import java.util.Set;
 class Solution {
   String FOLD_PREFIX = "fold along";
 
-  private int calcDots(Set<List<Integer>> paper, String axis, int value) {
+  void printSet(Set<List<Integer>> paper) {
+    int maxX = 0;
+    int maxY = 0;
+    for (List<Integer> coord : paper) {
+      int x = coord.get(0);
+      int y = coord.get(1);
+      maxX = Math.max(maxX, x);
+      maxY = Math.max(maxY, y);
+    }
+    char[][] arr = new char[maxY + 1][maxX + 1];
+    for (List<Integer> coord : paper) {
+      arr[coord.get(1)][coord.get(0)] = '#';
+    }
+    for (int i = 0; i < arr.length; i++) {
+      for (int j = 0; j < arr[i].length; j++) {
+        char c = arr[i][j];
+        System.out.print(c == '#' ? c : ' ');
+      }
+      System.out.println("");
+    }
+    System.out.println("==============");
+  }
+
+  Set<List<Integer>> fold(Set<List<Integer>> paper, String axis, int value) {
     Set<List<Integer>> newPaper = new HashSet<>();
     for (List<Integer> coord : paper) {
       int x = coord.get(0);
@@ -26,9 +49,9 @@ class Solution {
           newPaper.add(coord);
         }
       } else {
-        if (x <= value) {
-          int distance = value - x;
-          int newX = value + distance;
+        if (x >= value) {
+          int distance = x - value;
+          int newX = value - distance;
           List<Integer> newCoord = new ArrayList<>();
           newCoord.add(newX);
           newCoord.add(y);
@@ -38,15 +61,14 @@ class Solution {
         }
       }
     }
-    return newPaper.size();
+    return newPaper;
   } 
 
-  int foldInput() {
-    int numDots = 0;
+  void foldInput() {
+    Set<List<Integer>> paper = new HashSet<>();
     try {
         Path path = Paths.get("input.txt");
         List<String> fileContents = Files.readAllLines(path);
-        Set<List<Integer>> paper = new HashSet<>();
         for (String line : fileContents) {
           if (line.equals("")) continue;
           if (!line.startsWith(FOLD_PREFIX)) {
@@ -61,19 +83,19 @@ class Solution {
             String[] instr = line.split("=");
             String xOrY = instr[0].substring(instr[0].length() - 1);
             int value = Integer.parseInt(instr[1]);
-            numDots = calcDots(paper, xOrY, value);
+            paper = fold(paper, xOrY, value);
           }
         }
     } catch (Exception ex) {
         System.out.println(ex);
     }
-    return numDots;
+    printSet(paper);
   }
 }
 
-class Day13 {
+class Day13Part2 {
     public static void main(String[] args) {
       Solution solution = new Solution();
-      System.out.println(solution.foldInput());
+      solution.foldInput();
     }
 }
