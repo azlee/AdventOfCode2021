@@ -29,7 +29,6 @@ class Solution {
       }
       System.out.println("");
     }
-    System.out.println("==============");
   }
 
   Set<List<Integer>> fold(Set<List<Integer>> paper, String axis, int value) {
