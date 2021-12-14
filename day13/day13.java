@@ -62,6 +62,7 @@ class Solution {
             String xOrY = instr[0].substring(instr[0].length() - 1);
             int value = Integer.parseInt(instr[1]);
             numDots = calcDots(paper, xOrY, value);
+            return numDots;
           }
         }
     } catch (Exception ex) {
