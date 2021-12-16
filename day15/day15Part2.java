@@ -79,7 +79,6 @@ class Day15Part2 {
       System.out.println(shortestPath(arr));
     } catch (Exception e) {
       System.out.println(e);
-      throw e;
     }
-	}
+  }
 }
