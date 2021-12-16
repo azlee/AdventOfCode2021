@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 class Solution {
-
   Map<String, Long> generatePairMap(String str) {
     HashMap<String, Long> map = new HashMap<>();
     for (int i = 0; i < str.length() - 1; i++) {
