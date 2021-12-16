@@ -32,8 +32,6 @@ class Day15 {
   
   static int shortestPath(int[][] grid) {
     int[][] dist = new int[grid.length][grid[0].length];
-    int[] dx = {1, 0, -1};
-    int[] dy = {0, 1, -1};
     for (int i = 0; i < dist.length; i++) {
       for (int j = 0; j < dist[0].length; j++) {
         dist[i][j] = Integer.MAX_VALUE;
@@ -74,8 +72,5 @@ class Day15 {
     } catch (Exception e) {
       System.out.println(e);
     }
-		// ShortestPath t = new ShortestPath();
-		// t.dijkstra(graph, 0);
 	}
 }
-// This code is contributed by Aakash Hasija
