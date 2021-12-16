@@ -1,7 +1,6 @@
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -43,24 +42,16 @@ class Day15 {
     dist[0][0] = 0;
     PriorityQueue<Cell> pq = new PriorityQueue<>(grid.length * grid[0].length, new CellComparator());
     pq.add(new Cell(0, 0, 0));
+    int[][] directions = {{0,1}, {1,0}, {-1,0}, {0,-1}};
     while (!pq.isEmpty()) {
       Cell c = pq.poll();
-      for (int i = 0; i < dx.length; i++) {
-        int x = c.x + dx[i];
-        for (int j = 0; j < dy.length; j++) {
-          int y = c.y + dy[j];
-          // skip if we aren't moving
-          if (dx[i] == 0 && dy[j] == 0) continue;
-          // skip diagonals
-          if (dx[i] != 0 && dy[j] != 0) {
-            continue;
-          }
-
-          if (x >= 0 && y >= 0 && x < grid.length && y < grid[0].length) {
-            if (dist[x][y] > dist[c.x][c.y] + grid[x][y]) {
-              dist[x][y] = dist[c.x][c.y] + grid[x][y];
-              pq.add(new Cell(x, y, dist[x][y]));
-            }
+      for (int[] dir : directions) {
+        int x = c.x + dir[0];
+        int y = c.y + dir[1];
+        if (x >= 0 && y >= 0 && x < grid.length && y < grid[0].length) {
+          if (dist[x][y] > dist[c.x][c.y] + grid[x][y]) {
+            dist[x][y] = dist[c.x][c.y] + grid[x][y];
+            pq.add(new Cell(x, y, dist[x][y]));
           }
         }
       }
@@ -79,11 +70,9 @@ class Day15 {
           arr[i][j] = fileContents.get(i).charAt(j) - '0';
         }
       }
-      System.out.println("=======");
       System.out.println(shortestPath(arr));
     } catch (Exception e) {
       System.out.println(e);
-      throw e;
     }
 		// ShortestPath t = new ShortestPath();
 		// t.dijkstra(graph, 0);
