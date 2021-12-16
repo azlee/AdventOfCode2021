@@ -56,7 +56,7 @@ class Day15 {
     }
     return dist[dist.length-1][dist[0].length-1];
   }
-	public static void main(String[] args) {
+  public static void main(String[] args) {
     try {
       Path path = Paths.get("input.txt");
       List<String> fileContents = Files.readAllLines(path);
@@ -70,5 +70,5 @@ class Day15 {
     } catch (Exception e) {
       System.out.println(e);
     }
-	}
+  }
 }
