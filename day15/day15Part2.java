@@ -28,7 +28,7 @@ class Cell {
   }
 }
 
-class Day15 {
+class Day15Part2 {
   static int shortestPath(int[][] grid) {
     int[][] dist = new int[grid.length][grid[0].length];
     for (int i = 0; i < dist.length; i++) {
@@ -56,19 +56,30 @@ class Day15 {
     }
     return dist[dist.length-1][dist[0].length-1];
   }
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception
+	{
     try {
       Path path = Paths.get("input.txt");
       List<String> fileContents = Files.readAllLines(path);
-      int[][] arr = new int[fileContents.size()][fileContents.get(0).length()];
+      int[][] arr = new int[fileContents.size()*5][fileContents.get(0).length()*5];
+      int originalHeight = fileContents.size();
+      int originalWidth = fileContents.get(0).length();
       for (int i = 0; i < fileContents.size(); i++) {
-        for (int j = 0; j < fileContents.get(i).length(); j++) {
-          arr[i][j] = fileContents.get(i).charAt(j) - '0';
+        for (int j = 0; j < fileContents.get(0).length(); j++) {
+          for (int x = 0; x < 5; x++) {
+            for (int y = 0; y < 5; y++) {
+              int newX = i + ( x * originalHeight );
+              int newY = j + ( y * originalWidth );
+              arr[newX][newY] = (fileContents.get(i).charAt(j) - '0' + x + y) % 9;
+              if (arr[newX][newY] == 0) { arr[newX][newY] = 9; }
+            }
+          }
         }
       }
       System.out.println(shortestPath(arr));
     } catch (Exception e) {
       System.out.println(e);
+      throw e;
     }
 	}
 }
