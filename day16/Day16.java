@@ -92,9 +92,6 @@ class Day16 {
   static int parsePacket(int[] arr, int start) {
     int packetVersion = getDecimal(arr, start, start + 2);
     int packetTypeId = getDecimal(arr, start + 3, start + 5);
-    System.out.println("packetVersion " + packetVersion);
-    System.out.println("packetTypeId " + packetTypeId);
-    System.out.println("adding " + packetVersion);
     packetVersionSum += packetVersion;
     int newEnd = 0;
     if (packetTypeId == 4) {
@@ -103,11 +100,9 @@ class Day16 {
       int lengthTypeId = arr[start + 6];
       if (lengthTypeId == 0) {
         int totalLengthBits = getDecimal(arr, start + 7, start + 7 + 14);
-        System.out.println("totalLengthBits " + totalLengthBits);
         newEnd = parseNumBitPackets(arr, start + 7 + 15, totalLengthBits);
       } else {
         int numberSubPackets = getDecimal(arr, start + 7, start + 7 + 10);
-        System.out.println("numberSubPackets " + numberSubPackets);
         newEnd = parseNumPackets(arr, start + 7 + 11, numberSubPackets);
       }
     }
@@ -127,8 +122,8 @@ class Day16 {
           arr[i*4 + j] = binary.charAt(j) - '0';
         }
       }
-      System.out.println("binary is " + Arrays.toString(arr));
       parsePacket(arr, 0);
+      System.out.println(Arrays.toString(arr));
       System.out.println(packetVersionSum);
     } catch (Exception e) {
       System.out.println(e);
